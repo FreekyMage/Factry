@@ -6,8 +6,8 @@
 
     <title>Factry hiring challenge</title>
 
-    <link type="text/css" rel="stylesheet" href="normalize.css"  />
-    <link type="text/css" rel="stylesheet" href="factry.css"  />
+    <link type="text/css" rel="stylesheet" href="normalize.css" />
+    <link type="text/css" rel="stylesheet" href="factry.css" />
 
     <script>
       const debug = true;
@@ -55,7 +55,7 @@
 
       function getData(token) {
         let headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + btoa(token));
+        headers.append('Authorization', 'Bearer ' + token);
         fetch(dataUrl, {
           method: 'GET',
           headers: headers
