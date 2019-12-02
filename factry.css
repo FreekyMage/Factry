@@ -17,7 +17,7 @@ body {
   line-height: 1.5;
 }
 
-main {
+.section-login {
   background-color: white;
   border-radius: 6px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -141,4 +141,65 @@ input:hover {
 input:focus {
   border-color: #3273dc;
   box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+}
+
+.spinner {
+  background: rgba(255, 255, 255, 0.75);
+  height: 50px;
+  left: 50%;
+  opacity: 0;
+  padding: calc(50vh - 25px) calc(50vw - 50px);
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+}
+.spinner.visible {
+  animation: spinner-visible 1s forwards;
+}
+.spinner.hidden {
+  animation: spinner-hidden 1s forwards;
+}
+
+.spinner > div {
+  animation: spinner-loop 1.4s infinite ease-in-out both;
+  background-color: #209cee;
+  border-radius: 100%;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.spinner .bounce1 {
+  animation-delay: -0.32s;
+}
+.spinner .bounce2 {
+  animation-delay: -0.16s;
+}
+
+@keyframes spinner-loop {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1.0);
+  }
+}
+@keyframes spinner-visible {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes spinner-hidden {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

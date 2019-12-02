@@ -1,6 +1,6 @@
 /* global fetch, Headers */
 
-// Define important constants and variables
+// Define important constants and variables.
 const debug = true
 const debugUser = 'lumi'
 const debugPassword = 'lumi@factry87634'
@@ -8,8 +8,11 @@ const debugButtonId = 'loginDemo'
 
 const authUrl = 'https://demo.factry.io/hiringchallenge/auth/login'
 const dataUrl = 'https://demo.factry.io/hiringchallenge/historian/collectors'
+let token = false
 
-// Script to run for easy testing
+let spinnerElement = false
+
+// Script to run for easy testing.
 if (debug) {
   // Do a bad login attempt to show error messages.
   // login('non-existing-user', 'and-a-bad-password')
@@ -24,7 +27,6 @@ window.addEventListener('load', function () {
   // Login via form, sanitize input.
   const loginElement = document.getElementById('login')
   loginElement.addEventListener('submit', function (event) {
-    if (debug) console.log(event)
     event.preventDefault()
 
     const triggerElement = event.explicitOriginalTarget
@@ -36,10 +38,26 @@ window.addEventListener('load', function () {
       login(user, password)
     }
   })
+
+  // Everything is loaded so hide the spinner.
+  spinnerElement = document.getElementsByClassName('spinner')[0]
+  spinner('hide')
 })
 
-// Main login function
+function spinner (show = 'show') {
+  if (show === 'show') {
+    spinnerElement.classList.remove('hidden')
+    spinnerElement.classList.add('visible')
+  } else {
+    spinnerElement.classList.remove('visible')
+    spinnerElement.classList.add('hidden')
+  }
+}
+
+// Main login function.
 function login (user = debugUser, password = debugPassword) {
+  spinner('show')
+
   const headers = new Headers()
   headers.append('content-type', 'application/x-www-form-urlencoded')
 
@@ -49,25 +67,37 @@ function login (user = debugUser, password = debugPassword) {
     body: 'username=' + user + '&password=' + password
   })
     .then(response => {
-      response.text()
-        .then(token => {
-          if (debug) console.log(token)
-          showFeedback('Login successful')
-          // Get our data with the token we just received.
-          getData(token)
-        })
+      const contentType = response.headers.get('content-type')
+
+      if (contentType.includes('text/plain')) {
+        // Text means we got a token returned.
+        response.text()
+          .then(text => {
+            token = text
+            showFeedback('Login successful')
+            // Get our data with the token we just received.
+            getData()
+          })
+      } else if (contentType.includes('application/json')) {
+        // JSON means we probably got an invalid login.
+        response.json()
+          .then(json => {
+            spinner('hide')
+            showFeedback(json.message || 'Login unsuccessful', 'error')
+          })
+      } else {
+        throw new TypeError('Unexpected data received')
+      }
     })
     .catch(error => {
       console.error(error)
+      spinner('hide')
       showFeedback('Login unsuccessful', 'error')
     })
 }
 
-// curl -X GET \
-//   https://demo.factry.io/hiringchallenge/historian/collectors \
-//   -H 'Authorization: Bearer mysecretJWTtoken'
-
-function getData (token) {
+// Main data fetch function.
+function getData () {
   const headers = new Headers()
   headers.append('Authorization', 'Bearer ' + token)
 
@@ -75,19 +105,21 @@ function getData (token) {
     method: 'GET',
     headers: headers
   })
-    .then(response => console.log(response))
+    .then(response => {
+      console.log(response)
+      spinner('hide')
+    })
     .catch(error => console.error(error))
 }
 
-// Post data
-// curl -X POST \
-//    https://demo.factry.io/hiringchallenge/historian/collectors \
-//   -H 'Authorization: Bearer mytoken \
-//   -H 'Content-Type: application/json' \
-//   -d '{"Name":"NewCollector","Description":"NewDescription"}'
+// Main post data function.
+function postData () {
 
+}
+
+// Main feedback function towards the user.
 function showFeedback (message, type = 'success') {
-  const messagesElement = document.getElementById('messages')
+  const messagesElement = document.getElementsByClassName('messages')[0]
 
   // Clean up our classes before adding new ones to be safe.
   messagesElement.classList.remove('messages-success', 'messages-error')
