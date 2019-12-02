@@ -11,6 +11,7 @@ const dataUrl = 'https://demo.factry.io/hiringchallenge/historian/collectors'
 let token = false
 
 let spinnerElement = false
+let messagesElement = false
 
 // Script to run for easy testing.
 if (debug) {
@@ -38,6 +39,11 @@ window.addEventListener('load', function () {
       login(user, password)
     }
   })
+
+  messagesElement = document.getElementsByClassName('messages')[0]
+  // TODO: These animation resets need some more testing and tweaking.
+  messagesElement.addEventListener('animationend', cleanFeedback())
+  messagesElement.addEventListener('animationcancel', cleanFeedback())
 
   // Everything is loaded so hide the spinner.
   spinnerElement = document.getElementsByClassName('spinner')[0]
@@ -119,11 +125,10 @@ function postData () {
 
 // Main feedback function towards the user.
 function showFeedback (message, type = 'success') {
-  const messagesElement = document.getElementsByClassName('messages')[0]
+  messagesElement.innerText = message
 
   // Clean up our classes before adding new ones to be safe.
-  messagesElement.classList.remove('messages-success', 'messages-error')
-
+  cleanFeedback()
   switch (type) {
     case 'error':
       messagesElement.classList.add('messages-error')
@@ -132,4 +137,9 @@ function showFeedback (message, type = 'success') {
       messagesElement.classList.add('messages-success')
       break
   }
+}
+
+// Remove any classes to reset the animation.
+function cleanFeedback () {
+  messagesElement.classList.remove('messages-success', 'messages-error')
 }

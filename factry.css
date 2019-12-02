@@ -143,6 +143,45 @@ input:focus {
   box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 }
 
+.messages {
+  border-radius: 4px;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  left: 50%;
+  opacity: 0;
+  padding: 1rem 1.5rem;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -16rem);
+  z-index: 10;
+}
+
+.messages-success {
+  animation: messages-show 6s none;
+  background:#00d1b2;
+}
+.messages-error {
+  animation: messages-show 6s none;
+  background:#d13200;
+}
+
+@keyframes messages-show {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .spinner {
   background: rgba(255, 255, 255, 0.75);
   height: 50px;
@@ -155,6 +194,7 @@ input:focus {
   top: 50%;
   transform: translate(-50%, -50%);
   width: 100px;
+  z-index: 5;
 }
 .spinner.visible {
   animation: spinner-visible 1s forwards;
