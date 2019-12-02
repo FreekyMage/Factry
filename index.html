@@ -1,17 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Factry hiring challenge</title>
+  <title>Factry hiring challenge</title>
 
-    <link type="text/css" rel="stylesheet" href="normalize.css" />
-    <link type="text/css" rel="stylesheet" href="factry.css" />
+  <link type="text/css" rel="stylesheet" href="normalize.css" />
+  <link type="text/css" rel="stylesheet" href="factry.css" />
 
-    <script src="factry.js"></script>
+  <script src="factry.js"></script>
 </head>
 <body>
+  <main>
     <h1>Factry hiring challenge</h1>
+    <form id="login">
+      <div class="form-block">
+        <!-- Placeholder attributes should be replace with labels -->
+        <input type="text" id="username" name="username" placeholder="Username" />
+      </div>
+      <div class="form-block">
+        <input type="password" id="password" name="password" placeholder="Password" />
+      </div>
+      <div class="form-block">
+        <button type="submit" id="loginSubmit">Login</button>
+      </div>
+      <div class="form-block block-extra">
+        <button type="submit" id="loginDemo" class="button-alt">Login with a demo account</button>
+      </div>
+    </form>
+  </main>
+  <aside id="messages">
+  </aside>
 </body>
 </html>

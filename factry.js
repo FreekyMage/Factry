@@ -4,19 +4,39 @@
 const debug = true
 const debugUser = 'lumi'
 const debugPassword = 'lumi@factry87634'
+const debugButtonId = 'loginDemo'
 
 const authUrl = 'https://demo.factry.io/hiringchallenge/auth/login'
 const dataUrl = 'https://demo.factry.io/hiringchallenge/historian/collectors'
 
 // Script to run for easy testing
 if (debug) {
-  login()
+  // Do a bad login attempt to show error messages.
+  // login('non-existing-user', 'and-a-bad-password')
+  // Do a correct login with the debug user.
+  // login()
+
+  // Send some data.
 }
 
-// Login via form, sanitize input and/or provide feedback.
-function loginViaForm () {
+// Add our event listeners.
+window.addEventListener('load', function () {
+  // Login via form, sanitize input.
+  const loginElement = document.getElementById('login')
+  loginElement.addEventListener('submit', function (event) {
+    if (debug) console.log(event)
+    event.preventDefault()
 
-}
+    const triggerElement = event.explicitOriginalTarget
+    if (triggerElement.id === debugButtonId) {
+      login()
+    } else {
+      const user = document.getElementById('username')
+      const password = document.getElementById('password')
+      login(user, password)
+    }
+  })
+})
 
 // Main login function
 function login (user = debugUser, password = debugPassword) {
@@ -32,11 +52,15 @@ function login (user = debugUser, password = debugPassword) {
       response.text()
         .then(token => {
           if (debug) console.log(token)
+          showFeedback('Login successful')
           // Get our data with the token we just received.
           getData(token)
         })
     })
-    .catch(error => console.error(error))
+    .catch(error => {
+      console.error(error)
+      showFeedback('Login unsuccessful', 'error')
+    })
 }
 
 // curl -X GET \
@@ -61,3 +85,19 @@ function getData (token) {
 //   -H 'Authorization: Bearer mytoken \
 //   -H 'Content-Type: application/json' \
 //   -d '{"Name":"NewCollector","Description":"NewDescription"}'
+
+function showFeedback (message, type = 'success') {
+  const messagesElement = document.getElementById('messages')
+
+  // Clean up our classes before adding new ones to be safe.
+  messagesElement.classList.remove('messages-success', 'messages-error')
+
+  switch (type) {
+    case 'error':
+      messagesElement.classList.add('messages-error')
+      break
+    default:
+      messagesElement.classList.add('messages-success')
+      break
+  }
+}

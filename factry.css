@@ -1,17 +1,42 @@
-html,
-body {
+html, body {
   background: #fff;
   color: #fff;
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body, button, input, select, textarea {
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 body {
+  /* background: linear-gradient(330deg, rgba(111, 100, 255, 1) 0%, rgba(152, 148, 235, 1) 35%, rgba(219, 217, 255, 1) 100%); */
   color: #4a4a4a;
   font-size: 1em;
   font-weight: 400;
   line-height: 1.5;
-  padding: 0 2em;
+}
+
+main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  color: #4a4a4a;
+  padding: 1.25rem;
+}
+
+h1 {
+  background-color: #3273dc;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  color: #fff;
+  margin: -1.25rem -1.25rem 1.5rem;
+  padding: 1.25rem;
 }
 
 a {
@@ -28,10 +53,51 @@ a:hover {
   color: #363636;
 }
 
-code {
-  background-color: whitesmoke;
-  color: #ff3860;
-  font-size: 0.875em;
-  font-weight: normal;
-  padding: 0.25em 0.5em 0.25em;
+.form-block {
+  margin: 0.5rem 0;
+  position: relative;
+}
+
+.block-extra {
+  margin-top: 1.5rem;
+}
+
+button {
+  background-color: #209cee;
+  border: 1px solid #209cee;
+  color: #fff;
+  width: 100%;
+  cursor: pointer;
+  justify-content: center;
+  padding-bottom: calc(0.375em - 1px);
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  padding-top: calc(0.375em - 1px);
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 4px;
+  line-height: 1.5;
+  font-size: 1rem;
+  height: 2.25em;
+}
+
+.button-alt {
+  background: white;
+  border-color: #dbdbdb;
+  color: #363636;
+}
+
+input {
+  background-color: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+  color: #363636;
+  max-width: 100%;
+  width: 100%;
+  line-height: 1.5;
+  padding: calc(0.375em - 1px) calc(0.625em - 1px);
+  font-size: 1rem;
+  height: 2.25em;
+  box-sizing: border-box;
 }
