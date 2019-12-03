@@ -10,8 +10,10 @@ const authUrl = 'https://demo.factry.io/hiringchallenge/auth/login'
 const dataUrl = 'https://demo.factry.io/hiringchallenge/historian/collectors'
 let token = false
 
-let spinnerElement = false
+let loginElement = false
+let dataElement = false
 let messagesElement = false
+let spinnerElement = false
 
 // Script to run for easy testing.
 if (debug) {
@@ -26,7 +28,7 @@ if (debug) {
 // Add our event listeners.
 window.addEventListener('load', function () {
   // Login via form, sanitize input.
-  const loginElement = document.getElementById('login')
+  loginElement = document.getElementById('login')
   loginElement.addEventListener('submit', function (event) {
     event.preventDefault()
 
@@ -39,6 +41,8 @@ window.addEventListener('load', function () {
       login(user, password)
     }
   })
+
+  dataElement = document.getElementsByClassName('section-data')[0]
 
   messagesElement = document.getElementsByClassName('messages')[0]
   // TODO: These animation resets need some more testing and tweaking.
@@ -112,10 +116,53 @@ function getData () {
     headers: headers
   })
     .then(response => {
-      console.log(response)
+      if (debug) console.log(response)
       spinner('hide')
+      response.json()
+        .then(json => {
+          if (debug) console.log(json)
+          loginElement.parentElement.classList.add('hidden')
+          displayData(json)
+        })
     })
     .catch(error => console.error(error))
+}
+
+function displayData (json) {
+  json.forEach(item => {
+    if (debug) console.log(item)
+    const itemOutput = document.createElement('div')
+    itemOutput.id = item.ID
+    itemOutput.classList.add('data-item')
+    itemOutput.innerHTML = '<h3>' + item.Name + '</h3>' +
+    '<div class="item-description">' + item.Description + '</div>' +
+    '<div class="item-meta">' +
+    '<div class="item-type"><span>Type:</span>' + item.Type + '</div>' +
+    '<div class="item-version"><span>Version:</span>' + item.Version + '</div>' +
+    '<div class="item-status"><span>Status:</span>' + item.Status + '</div>' +
+    '</div>' +
+    '<div class="item-dates">' +
+    '<div class="item-createdby">' + formatUser(item.CreatedBy) + '</div>' +
+    '<div class="item-createat">' + formatDate(item.CreatedAt) + '</div>' +
+    '<div class="item-updatedby">' + formatUser(item.UpdatedBy) + '</div>' +
+    '<div class="item-updatedat">' + formatDate(item.UpdatedAt) + '</div>' +
+    '</div>'
+
+    dataElement.appendChild(itemOutput)
+  })
+}
+
+// Get user by id or return Unknown.
+function formatUser (user) {
+  return user || 'Unknown'
+}
+
+function formatDate (date) {
+  date = new Date(Date.parse(date))
+  const dd = date.getDate()
+  const mm = date.getMonth()
+  const yyyy = date.getFullYear()
+  return `${dd}/${mm}/${yyyy}`
 }
 
 // Main post data function.

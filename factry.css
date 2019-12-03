@@ -27,6 +27,19 @@ body {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
+  width: 350px;
+}
+.section-login.hidden {
+  animation: section-login-hidden 1s forwards;
+}
+
+@keyframes section-login-hidden {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 h1 {
@@ -150,20 +163,21 @@ input:focus {
   font-weight: bold;
   left: 50%;
   opacity: 0;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.25rem;
   position: absolute;
   text-align: center;
   top: 50%;
   transform: translate(-50%, -16rem);
+  width: 350px;
   z-index: 10;
 }
 
 .messages-success {
-  animation: messages-show 6s none;
+  animation: messages-show 5s none;
   background:#00d1b2;
 }
 .messages-error {
-  animation: messages-show 6s none;
+  animation: messages-show 5s none;
   background:#d13200;
 }
 
@@ -242,4 +256,51 @@ input:focus {
   100% {
     opacity: 0;
   }
+}
+
+.section-data {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 1.25rem;
+}
+
+.data-item {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  color: #4a4a4a;
+  margin-bottom: 1.25rem;
+  padding: 1.25rem;
+}
+
+.data-item h3 {
+  border-bottom: 1px dashed rgba(10, 10, 10, 0.1);
+  line-height: 2em;
+  margin: 0 0 0.25em;
+}
+
+.data-item .item-description {
+  border-bottom: 1px dashed rgba(10, 10, 10, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.data-item .item-meta {
+  border-bottom: 1px dashed rgba(10, 10, 10, 0.1);
+  display: flex;
+  margin: 0 0 0.25em;
+  padding: 0.5rem 0;
+}
+
+.data-item .item-dates {
+  display: flex;
+}
+
+.data-item .item-meta > *,
+.data-item .item-dates > * {
+  flex: 1;
+}
+
+.section-data span {
+  font-weight: bolder;
+  padding-right: 0.33em;
 }
